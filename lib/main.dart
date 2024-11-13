@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:my_todo_app/auth/provider/auth_provider.dart';
+import 'package:my_todo_app/auth/view/login_screen.dart';
+import 'package:my_todo_app/auth/view/signup_screen.dart';
 import 'package:my_todo_app/ui/providers/task_provider.dart';
 import 'package:my_todo_app/ui/screens/the_main_screen.dart';
 import 'package:my_todo_app/ui/screens/the_splash_screen.dart';
@@ -19,17 +22,25 @@ Future<void> main() async {
         .currentPlatform, // this line is written if you make an app that works in more than 1 platform
   );
   // by using the line below there is a local data base created in the user device and it adds the data inside it not in the remote database
-  FirebaseFirestore.instance.disableNetwork();
+  // FirebaseFirestore.instance.disableNetwork();
 
   // by using the line below the device will not delete the cache after a limited time
   FirebaseFirestore.instance.settings =
       const Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
   runApp(
     // we have to create the provider here to use it inside the app ' Imp. '
-    ChangeNotifierProvider(
-      create: (_) =>
-          TaskProvider()..getTasksByDate(), // it will initial all tasks
+    MultiProvider( // we use multi provider to use more than one provider
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => TaskProvider(),
+          child: const MyApp(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => TheAuthProvider(),
+        )
+      ],
       child: const MyApp(),
+
     ),
   );
 }
@@ -55,9 +66,11 @@ class MyApp extends StatelessWidget {
       locale: const Locale('en'),
       routes: {
         TheSplashScreen.theRouteName: (_) => const TheSplashScreen(),
-        TheMainScreen.theRouteName: (_) => const TheMainScreen()
+        TheMainScreen.theRouteName: (_) => const TheMainScreen(),
+        TheSignUpScreen.theRouteName: (_) => const TheSignUpScreen(),
+        TheLoginScreen.theRouteName: (_) => const TheLoginScreen(),
       },
-      initialRoute: TheSplashScreen.theRouteName,
+      initialRoute: TheMainScreen.theRouteName,
     );
   }
 }

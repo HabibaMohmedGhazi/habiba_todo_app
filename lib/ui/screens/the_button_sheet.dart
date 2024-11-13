@@ -26,7 +26,8 @@ class TheButtonSheet extends StatefulWidget {
 }
 
 class _TheButtonSheetState extends State<TheButtonSheet> {
-  DateTime selectedDate = DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day);
+  DateTime selectedDate =
+      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   TextEditingController theTitleController = TextEditingController();
   TextEditingController theDescriptionController = TextEditingController();
   bool isLoading = false;
@@ -75,34 +76,32 @@ class _TheButtonSheetState extends State<TheButtonSheet> {
                 ),
               ),
             ),
-            TextButton(onPressed: ()async {
-              var date = await showDatePicker(
+            TextButton(
+              onPressed: () async {
+                var date = await showDatePicker(
                   context: context,
                   initialDate: selectedDate,
                   firstDate: DateTime.now(),
-              lastDate: DateTime.now().add(
-              const Duration(days: 365),),);
-              if (date != null){
-                selectedDate=DateTime(date.year,date.month,date.day);
-                setState(() {
-
-                });
-                log('you selected a date');
-              }
-
-
-
-            }, child: Text(
-              selectedDate.toFormatedDate,
-              textAlign: TextAlign.center,
-            ),),
+                  lastDate: DateTime.now().add(
+                    const Duration(days: 365),
+                  ),
+                );
+                if (date != null) {
+                  selectedDate = DateTime(date.year, date.month, date.day);
+                  setState(() {});
+                  log('you selected a date');
+                }
+              },
+              child: Text(
+                selectedDate.toFormatedDate,
+                textAlign: TextAlign.center,
+              ),
+            ),
             const Spacer(),
             CustomElevatedButton(
-
-              data: isLoading
-                  ? 'loading': 'Add',
+              data: isLoading ? 'loading' : 'Add',
               onPress: isLoading
-                  ? null  // to make the button deactivated
+                  ? null // to make the button deactivated
                   : () async {
                       TaskDM newTask = TaskDM(
                           theId: '',
@@ -118,8 +117,7 @@ class _TheButtonSheetState extends State<TheButtonSheet> {
                         isLoading = false;
                       });
                       log('you add a task');
-
-              },
+                    },
             ),
           ],
         ),

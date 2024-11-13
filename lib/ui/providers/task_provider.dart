@@ -23,10 +23,9 @@ class TaskProvider with ChangeNotifier {
   Future<void> addTask(TaskDM newTask) async {
     try {
       // we pyt this timeout in the line below because we are using the app offline
-      await FirebaseServices.addTask(newTask).timeout(Duration(seconds: 2),
-          onTimeout: () async {
+      await FirebaseServices.addTask(newTask);
         await getTasksByDate();
-      });
+
     } catch (e) {
       print(e);
     }

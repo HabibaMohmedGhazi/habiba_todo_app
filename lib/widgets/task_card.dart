@@ -14,20 +14,16 @@ class TaskCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Slidable(
-
         key: UniqueKey(),
         startActionPane: ActionPane(
           motion: const ScrollMotion(),
           dismissible: DismissiblePane(onDismissed: () {
-            Provider.of<TaskProvider>(context,listen: false).deleteTask(taskModel.theId);
-
+            Provider.of<TaskProvider>(context, listen: false)
+                .deleteTask(taskModel.theId);
           }),
-
           children: [
             SlidableAction(
-              onPressed: (context) async {
-
-              },
+              onPressed: (context) async {},
               backgroundColor: Color(0xFFFE4A49),
               foregroundColor: Colors.white,
               icon: Icons.delete,
